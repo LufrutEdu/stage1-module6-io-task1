@@ -12,7 +12,7 @@ public class FileReader {
             while ((c = fileInputStream.read()) != -1) {
                 input.append((char) c);
             }
-            String[] profile = input.toString().split(": |\r\n");
+            String[] profile = input.toString().split(": |\r\n|\n");
             String name = null;
             int age = 0;
             String email = null;
@@ -23,17 +23,13 @@ public class FileReader {
                         name = profile[i + 1];
                         break;
                     case "Age":
-                        try {
-                            age = Integer.parseInt(profile[i + 1]);
-                        } catch (NumberFormatException ignored){}
+                            age = parseAge(profile[i + 1]);
                         break;
                     case "Email":
                         email = profile[i + 1];
                         break;
                     case  "Phone":
-                        try {
-                        phone = Long.parseLong(profile[i + 1]);
-                        } catch (NumberFormatException ignored){}
+                        phone = parsePhone(profile[i + 1]);
                         break;
                     default:
                         break;
@@ -45,5 +41,21 @@ public class FileReader {
             return null;
         }
 
+    }
+    Long parsePhone(String phone){
+        try {
+            return Long.parseLong(phone);
+        } catch (NumberFormatException ex){
+            System.out.println("Converting phone error:" + ex);
+            return 0L;
+        }
+    }
+    int parseAge(String age){
+        try {
+            return Integer.parseInt(age);
+        } catch (NumberFormatException ex){
+            System.out.println("Converting age error:" + ex);
+            return 0;
+        }
     }
 }
