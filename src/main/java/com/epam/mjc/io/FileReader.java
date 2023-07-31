@@ -1,10 +1,13 @@
 package com.epam.mjc.io;
 
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class FileReader {
 
+    Logger logger = Logger.getGlobal();
     public Profile getDataFromFile(File file) {
         try (FileInputStream fileInputStream = new FileInputStream(file)) {
             StringBuilder input = new StringBuilder();
@@ -37,7 +40,7 @@ public class FileReader {
             }
             return new Profile(name, age, email, phone);
         } catch (IOException ex) {
-            System.out.println("Read file error:" + ex);
+            logger.log(Level.WARNING, ex.toString());
             return null;
         }
 
@@ -46,7 +49,7 @@ public class FileReader {
         try {
             return Long.parseLong(phone);
         } catch (NumberFormatException ex){
-            System.out.println("Converting phone error:" + ex);
+            logger.log(Level.WARNING, ex.toString());
             return 0L;
         }
     }
@@ -54,7 +57,7 @@ public class FileReader {
         try {
             return Integer.parseInt(age);
         } catch (NumberFormatException ex){
-            System.out.println("Converting age error:" + ex);
+            logger.log(Level.WARNING, ex.toString());
             return 0;
         }
     }
